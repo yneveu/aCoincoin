@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout android:id="@+id/TableLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<ListView android:id="@+id/ListView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:choiceMode="singleChoice"></ListView><RadioGroup android:id="@+id/RadioGroup01" android:layout_width="wrap_content" android:layout_height="wrap_content"></RadioGroup><LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonBold"></ImageButton><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonItalic"></ImageButton>
+<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonStroke"></ImageButton>
+<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonUnderlined"></ImageButton>
+</LinearLayout><EditText android:id="@+id/EditText01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coin Coin!" android:minLines="5" android:selectAllOnFocus="true"></EditText>
+<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Post"></Button>
+
+
+</TableLayout>

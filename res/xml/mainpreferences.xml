@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  
+  <PreferenceCategory android:title="Simple Preferences">
+        <CheckBoxPreference
+            android:key="@string/checkboxsound"
+            android:title="Notification sound"
+            android:summary="Enable/disable sound on new message"
+        />
+        <RingtonePreference
+            android:key="@string/ringtone"
+            android:title="Sound selection"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:ringtoneType="notification" 
+            android:summary="Select the notification sound"
+        />
+        <EditTextPreference
+        	android:key="@string/updateInterval"
+        	android:title="Update interval"
+        	android:summary="Interval in seconds between two board updates"
+        	android:defaultValue="600"
+        />
+        
+        
+        
+   </PreferenceCategory>
+   <PreferenceCategory android:title="Boards preferences">
+        <PreferenceScreen
+            android:key="detail"
+            android:title="Boards"
+            android:summary="Configured boards list">
+            <CheckBoxPreference
+                android:key="@string/checkbox2"
+                android:title="Another Checkbox"
+                android:summary="On. Off. It really doesn't matter."
+            />
+            <ListPreference
+            	android:key="@string/boardListsPref"
+            	android:title="Boards list"
+            	android:summary="List of boards to setup"
+            	
+            />
+        </PreferenceScreen>
+    </PreferenceCategory>
+  
+  
+</PreferenceScreen>

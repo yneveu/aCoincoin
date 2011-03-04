@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="fr.gabuzomeu.aCoincoin"
+      android:versionCode="1"
+      android:versionName="1.0">
+<application android:label="@string/app_name" android:icon="@drawable/icon" android:name="CoinCoinApp">    
+    
+    <uses-sdk android:minSdkVersion="3" />
+<activity android:name="CoincoinActivity">
+			<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+</activity>
+
+<activity
+						android:name=".CoincoinPrefsActivity"
+						android:label="@string/app_name">
+				</activity>
+				<activity
+						android:name=".CoincoinBoardsEditor"
+						android:label="@string/app_name">
+				</activity>
+				
+				<activity
+						android:name=".CoincoinBoardSettings"
+						android:label="@string/app_name">
+				</activity>
+				<activity
+						android:name=".CoincoinPostActivity"
+						android:label="@string/app_name">
+				</activity>
+				
+				
+				
+
+
+
+    <service android:name="fr.gabuzomeu.aCoincoin.ACoinCoinService" ></service>
+
+</application>
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+</manifest> 

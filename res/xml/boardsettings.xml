@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+<EditTextPreference
+		android:key="name"
+		android:title="Board name"
+/>
+		
+<CheckBoxPreference
+		android:key="enabled"
+		android:title="Is the board enabled?"
+/>
+
+<EditTextPreference
+		android:key="backend_url"
+		android:title="Backend url"
+/>
+
+<EditTextPreference
+		android:key="user_agent"
+		android:title="Post User agent"
+/>
+
+<EditTextPreference
+		android:key="background_color"
+		android:title="Messages background color"
+/>
+
+
+
+</PreferenceScreen>

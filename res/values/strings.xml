@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, CoincoinActivity!</string>
+    <string name="app_name">aCoincoin</string>
+<string name="checkboxsound">Sounds</string>
+<string name="ringtone">Ringtone</string>
+<string name="checkbox2">todo</string>
+<string name="updateInterval">Update interval</string>
+<string name="boardListsPref">boardListPref</string>
+<string name="boardEnabled">Enabled</string>
+<string name="boardName">Name</string>
+</resources>

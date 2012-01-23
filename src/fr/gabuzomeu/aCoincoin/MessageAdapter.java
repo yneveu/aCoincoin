@@ -31,8 +31,7 @@ public class MessageAdapter extends ArrayAdapter<CoinCoinMessage> {
        super( context, viewId, messagesList);
     	this.context = context;
         this.messagesList = messagesList;
-        
-        Log.i( CoinCoinApp.LOG_TAG, "CONSTRUCTION DE l'ADAPTER :" + this);
+               
     }
 
     public int getCount() {                        
@@ -49,8 +48,7 @@ public class MessageAdapter extends ArrayAdapter<CoinCoinMessage> {
     
 
     public View getView(int position, View convertView, ViewGroup parent) { 
-    	Log.i( CoinCoinApp.LOG_TAG, "MESSAGEADAPTER:getView position: " + position);
-    	
+    	    	
     	int nbMessages = messagesList.size();
     	final CoinCoinMessage message = messagesList.get( nbMessages - ( position + 1));
     	
@@ -75,8 +73,6 @@ public class MessageAdapter extends ArrayAdapter<CoinCoinMessage> {
         	sLogin =  message.getLogin() ;
     	login.setText( sLogin);
     	
-		
-		
 		
 		
 		String sClock= String.valueOf( message.getTime());

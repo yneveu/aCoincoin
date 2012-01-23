@@ -29,7 +29,6 @@ public class CoinCoinParser extends DefaultHandler {
     ArrayList<CoinCoinMessage> messages;
     
 	public ArrayList<CoinCoinMessage> getMessages() {
-		//Log.i( CoinCoinApp.LOG_TAG, "PLOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
 		return messages;
 	}
 
@@ -37,7 +36,6 @@ public class CoinCoinParser extends DefaultHandler {
 
 	@Override 
     public void startDocument() throws SAXException { 
-         //this.myParsedExampleDataSet = new ParsedExampleDataSet(); 
 		Log.i( CoinCoinApp.LOG_TAG, "Parsing started");
 		messages=new ArrayList();
 		
@@ -51,8 +49,7 @@ public class CoinCoinParser extends DefaultHandler {
 
 	
     public void startElement(String namespaceURI, String localName, 
-              String qName, Attributes atts) throws SAXException { 
-    	//Log.i( CoinCoinApp.LOG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Start element: " + localName );
+        String qName, Attributes atts) throws SAXException { 
     	
     	if( localName.equals("time")){
     		
@@ -70,7 +67,6 @@ public class CoinCoinParser extends DefaultHandler {
     		message.setId( Integer.parseInt( atts.getValue("id")));
         	message.setTime( Long.parseLong( atts.getValue("time")));
         	
-        	//Log.i( CoinCoinApp.LOG_TAG, "DEBUT D'UN POST: " + localName + " ID: " + message.getId() );
 		this.in_post=true;	
         }else if ( localName.equals("board")){
     		this.in_board=true;
@@ -86,7 +82,7 @@ public class CoinCoinParser extends DefaultHandler {
     @Override 
     public void endElement(String namespaceURI, String localName, String qName) 
               throws SAXException { 
-    	//Log.i( CoinCoinApp.LOG_TAG, "End element: " + localName);
+
     	if( localName.equals("time")){
     		this.in_time=false;
     	}else if ( localName.equals("id")){
@@ -99,11 +95,6 @@ public class CoinCoinParser extends DefaultHandler {
     		this.in_login=false;
         }else if ( localName.equals("post")){
         	messages.add( message );
-        //	Log.i( CoinCoinApp.LOG_TAG, "AJOUT ELEMENT POST: " + localName);
-        //	
-        	//Log.i( CoinCoinApp.LOG_TAG, "MESSAGE " + message) ;
-        //	Log.i( CoinCoinApp.LOG_TAG, "************************************************") ;
-        	
         }else if ( localName.equals("board")){
     		this.in_board=false;
         }else if ( localName.equals("timezone")){
@@ -114,9 +105,7 @@ public class CoinCoinParser extends DefaultHandler {
     	
     } 
      
-    /** Gets be called on the following structure: 
-     * <tag>characters</tag> */ 
-    @Override 
+   @Override 
    public void characters(char ch[], int start, int length) { 
     	String cdata = new String(ch, start, length);
        // cdata = cdata.trim();
@@ -126,7 +115,6 @@ public class CoinCoinParser extends DefaultHandler {
     		this.in_time=false;
     	}else if( this.in_id ){
     		message.setId( Integer.parseInt( cdata ));
-    		Log.i( CoinCoinApp.LOG_TAG, "ID-------------->: " + cdata);
     		this.in_id=false;
     	}else if( this.in_info ){
     		message.setInfo( cdata );
@@ -134,7 +122,6 @@ public class CoinCoinParser extends DefaultHandler {
     	}else if( this.in_message ){
     		if( message.getMessage() != null ){
     			message.setMessage( message.getMessage() + cdata );
-    			//Log.i( CoinCoinApp.LOG_TAG, "*** MESSAGE XML-------------->: " + cdata);
     		}
     		else 
     			message.setMessage( cdata);

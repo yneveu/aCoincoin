@@ -21,8 +21,6 @@ class BoardAdapterView extends LinearLayout {
             super( context );
 	        this.setOrientation(HORIZONTAL);        
 	    
-           	    
-	    //Name
             LinearLayout.LayoutParams messageParams = new LinearLayout.LayoutParams( LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
             
             messageParams.setMargins(1, 1, 1, 1);
@@ -42,9 +40,7 @@ class BoardAdapterView extends LinearLayout {
             
             CompoundButton.OnCheckedChangeListener l=new CompoundButton.OnCheckedChangeListener(){
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					//Integer myPosition=(Integer)buttonView.getTag();
-					Log.i( CoinCoinApp.LOG_TAG, "Checked: " + board.getName());
-					//buttonView.setText(board.getName());
+
 				}
 			};
 
@@ -83,8 +79,7 @@ public class BoardAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) { 
         CoincoinBoard board = boardsList.get(position);
-        Log.i( CoinCoinApp.LOG_TAG, "AJOUT ELEMENT VIEW BOARDADAPTER: " + board);
-        
+               
         BoardAdapterView aView = new BoardAdapterView(  this.context, board );
         rGroup.addView( aView );
         return rGroup;

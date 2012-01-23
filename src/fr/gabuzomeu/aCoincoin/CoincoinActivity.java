@@ -168,7 +168,7 @@ public class CoincoinActivity extends ListActivity {
 	     mItemRefresh = menu.add("Refresh");
 	     mItemRefresh.setIcon(android.R.drawable.ic_menu_rotate);
      
-	     mItemPreferences = menu.add("Preferences");
+/*	     mItemPreferences = menu.add("Preferences");
 	     mItemPreferences.setIcon( android.R.drawable.ic_menu_preferences);
 	     
 	     mItemAbout = menu.add("About");
@@ -176,7 +176,7 @@ public class CoincoinActivity extends ListActivity {
 	     
 	     mItemBoards = menu.add("Boards");
 	     mItemBoards.setIcon( android.R.drawable.ic_menu_camera);
-	     
+	*/    
 	     return true;
 	     
 	     
@@ -190,9 +190,6 @@ public class CoincoinActivity extends ListActivity {
 	     if (item.hasSubMenu() == false){
 	    	 
 	    	 if( item ==  this.mItemRefresh ){
-	    		 //Message msg = new Message();
-				 //msg.arg1=MESSAGE_TO_SERVICE_REFRESH;
-				 //app.getServiceHandler().sendMessage(msg);
 					Intent svc = new Intent(this, ICoincoinService.class);
 			    	this.startService(svc);
 				 
@@ -204,9 +201,6 @@ public class CoincoinActivity extends ListActivity {
 	    		 
 	    		 Log.i( CoinCoinApp.LOG_TAG, "MENU_POST" + MENU_POST + " sent: " + item.getItemId());
 	    		 Intent intent = new Intent( mContext , CoincoinPostActivity.class);
-				 //intent.putExtra("board", message.getBoardId());
-				 //Log.i( CoinCoinApp.LOG_TAG, "SEND BOARD ID : " + message.getBoardId()  );
-				 //intent.putExtra("norloge", hour + ":" + minutes +":" + seconds +" ");
 				 mContext.startActivity( intent);
 
 	    	 }

@@ -41,7 +41,7 @@
 
 
 
-    <service android:name="fr.gabuzomeu.aCoincoin.ACoinCoinService" ></service>
+    <service android:name="obsolete.ACoinCoinService" ></service>
     <service android:name="fr.gabuzomeu.aCoincoin.ICoincoinService" ></service>
 
 </application>

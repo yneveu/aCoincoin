@@ -16,26 +16,20 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import fr.gabuzomeu.aCoincoin.CoincoinActivity.ResponseReceiver;
-
 import android.app.IntentService;
 import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.SQLException;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import fr.gabuzomeu.aCoincoin.CoincoinActivity.ResponseReceiver;
 
 
 
 public class ICoincoinService extends IntentService {
 	
-	private Handler mHandler = new Handler();
-	private NotificationManager mNotificationManager;
 	Notification notification;
 	CoinCoinApp app;
 	private boolean oneShotUpdate = false;
@@ -49,8 +43,6 @@ public class ICoincoinService extends IntentService {
 			if (msg.arg1 == 1) {
 				Log.i( CoinCoinApp.LOG_TAG, "Activity sent an update trigger");
 				oneShotUpdate = true;
-			//	mHandler.postDelayed( fetchTask, 100);
-				//oneShotUpdate = false;
 				int newMessCounter = fetchNewPosts( false);
 			}
 
@@ -91,30 +83,16 @@ public class ICoincoinService extends IntentService {
 		
 	}
 	
-	
-	
-
-		
-	
-	
-		
-		
-		
-		public int fetchNewPosts( boolean all){
 			
-			//Cursor cs = null;
-			//Cursor cs_mess=null;
+		
+	public int fetchNewPosts( boolean all){
+			
 			
 			int newmessCounter=0;
 			
-			
 			for( int i=0; i < app.getBoardList().size(); i++){
 				CoincoinBoard board = app.getBoardList().get( i);
-				Log.i( CoinCoinApp.LOG_TAG, "IN ISERVICE BOARD -------> " + board.getName() + "MAX ID: " + board.getLastMessageId());
-
-				
-				
-				
+					
 				try{
 					URL url = new URL( board.getBackend_url() );
 					File tmpFile = File.createTempFile( board.getName(), "coin");
@@ -154,14 +132,8 @@ public class ICoincoinService extends IntentService {
 					while( it.hasNext()){
 						
 						CoinCoinMessage mess = it.next();
-						//cs_mess = app.getDb().query( "messages", new String[]{"post_id"}, "post_id=? AND fk_board_id=?", new String[]{ String.valueOf(mess.getId()), String.valueOf( board.getId()) }, null, null, "time DESC");
-						
-						//Log.i( CoinCoinApp.LOG_TAG, "ID du message:" + mess.getId() + " ID max board: " + board.getLastMessageId()  );
-						
 						try{
 							if( mess.getTime() > maxTime ){
-								Log.i( CoinCoinApp.LOG_TAG, "AJOUT message:" + mess.getTime() + " ID max board: " + maxTime + " MAXID TMP: " +maxTimeTmp );
-								//if( cs_mess.getCount() <= 0){
 								ContentValues messageValues= new ContentValues();
 								messageValues.put("fk_board_id",  board.getId());
 								messageValues.put("time",  mess.getTime());
@@ -169,33 +141,18 @@ public class ICoincoinService extends IntentService {
 								messageValues.put("login",  mess.getLogin());
 								messageValues.put("message",  mess.getMessage());
 								messageValues.put("post_id",  mess.getId());
-								
-								
 								app.getDb().insert( "messages", "id", messageValues);
-								
 								newmessCounter++;
 								int cpt = board.getNewMessages();
 								
 								if ( mess.getTime() > maxTimeTmp)
 									maxTimeTmp = mess.getTime();
 								
-								
 								cpt++;
 								board.setNewMessages( cpt);
 								mess.setBackgroundColor(  board.getBackground_color());
 								app.getMessagesList().add( mess);
-								//app.getMessageAdapter().add( mess);
-								MessageAdapter ma = (MessageAdapter)app.getMainActivity().getListAdapter();
-								
-								//ma.add( mess);
-								
-							}else{
-							//	Log.i( CoinCoinApp.LOG_TAG, "PAS D'AJOUT DU MESSAGE" + mess.getId() + " ID max board: " + maxId + " MAXID TMP: " +maxIdTmp );
 							}
-							//if( cs_mess != null){
-								//Log.i( CoinCoinApp.LOG_TAG, "CLOSE CURSOR CS_MESS!!!!!!!!!!!!!!!!!!!!!!!!!!"  );
-						//		cs_mess.close();
-						//	}
 						}catch(SQLException e){
 							Log.i( CoinCoinApp.LOG_TAG, e.getMessage()  );
 						}
@@ -211,34 +168,23 @@ public class ICoincoinService extends IntentService {
 							ContentValues boardValues= new ContentValues();
 							boardValues.put( "last_update",maxTimeTmp );
 							app.getDb().update( "boards", boardValues, "id=?", new String[]{String.valueOf(board.getId()) });
-							int nbMessages = app.getMessagesList().size();
 							board.setLast_update(maxTimeTmp );
-							//app.getMessageAdapter().notifyDataSetChanged();
 							MessageAdapter ma = (MessageAdapter) app.getMainActivity().getListAdapter();
-							Log.i( CoinCoinApp.LOG_TAG, "ADAPTEUR: " + ma + " GETCOUNT AVANT "  + ma.getCount());
 							Collections.sort( app.getMessagesList());
 							Collections.reverse( app.getMessagesList());
-							//app.getMessageAdapter().notifyDataSetChanged();
-							//ma.notifyDataSetChanged();
-							Log.i( CoinCoinApp.LOG_TAG, "GETCOUNT APRES "  + ma.getCount());
-							
+
 							/*Send intent to activity for refresh*/
 							Intent broadcastIntent = new Intent();
 							broadcastIntent.setAction( ResponseReceiver.ACTION_RESP);
 							broadcastIntent.addCategory( Intent.CATEGORY_DEFAULT);
-							//broadcastIntent.putExtra(P ARAM_OUT_MSG, resultTxt);
 							sendBroadcast(broadcastIntent);
-						//	for (int i1=0; i1< nbMessages; i1++ ){
-						//		Log.i( CoinCoinApp.LOG_TAG, "LISTE " + i1 + " : " + app.getMessagesList().get( i1));
-					     //   }
 						}
 							
 					}
 					
-					
 			
 				}catch( Exception e){
-					Log.i( CoinCoinApp.LOG_TAG, "APP !!!!!!!!!!!!!!!!!!!!!!!!!!" + e.toString()  );
+					Log.i( CoinCoinApp.LOG_TAG, "Oups: " + e.toString()  );
 					e.printStackTrace();
 				}
 
@@ -250,12 +196,7 @@ public class ICoincoinService extends IntentService {
 	
 
 
-
-
-
-
-
-
+/*
 	public void run() {
 
 		
@@ -267,63 +208,6 @@ public class ICoincoinService extends IntentService {
 		
 		notification = new Notification(icon, tickerText, when);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		
-		
-		String notifMess = new String(); 
-		
-	/*	if( newMessCounter > 0 ){  
-
-							
-			CharSequence contentTitle = "ACoincoin messages";
-			
-			for ( int i = 0; i < app.getBoardList().size(); i++ ){
-				CoincoinBoard board = app.getBoardList().get( i);
-				if( board.getNewMessages() > 0){
-					//notifMess+= new String( board.getNewMessages()+ " messages added in board " + board.getName() + '\n');
-					notifMess+= board.getName() + "(" + board.getNewMessages() + ") ";
-					
-				}
-				
-			}
-			Intent notificationIntent = new Intent( ICoincoinService.this, CoincoinActivity.class);
-
-			notificationIntent.setAction("android.intent.action.MAIN");
-			notificationIntent.addCategory("android.intent.category.LAUNCHER");
-			//PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-			
-			PendingIntent contentIntent = PendingIntent.getActivity( ICoincoinService.this , 0, notificationIntent, 0);
-			
-			notification.setLatestEventInfo( ICoincoinService.this, contentTitle, notifMess, contentIntent);
-			
-			boolean sound = app.getPrefs().getBoolean( "Sounds" ,false);
-			//boolean sound = Boolean.getBoolean( sSound);
-			Log.i( CoinCoinApp.LOG_TAG, "Sound: " + sound);
-			if( sound){
-				notification.sound = Uri.parse("file:///sdcard/acoincoin/notification/coin.mp3");
-			}
-						
-
-			MessageAdapter messageAdapter = (MessageAdapter) app.getMainActivity().getListAdapter();
-			//messageAdapter.notifyDataSetInvalidated();
-			
-			messageAdapter.notifyDataSetChanged();
-			
-			Log.i( CoinCoinApp.LOG_TAG, "PLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOPPPPPPPPPPPPPP !!!!!!!!!!!!!!!!!!!!!!!!!!" );
-			//app.getMainActivity().getListView().invalidate();
-			//app.getMainActivity().getListView().refreshDrawableState();
-			mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			mNotificationManager.notify(1,notification);
-			
-			
-			
-			
-			
-		}*/
-
-		//mHandler.postDelayed(this, defaultUpdateInterval);
-		
-		
-		
 		
 		if( !oneShotUpdate){
 			String sUp = app.getPrefs().getString( "Update interval","600");
@@ -344,21 +228,7 @@ public class ICoincoinService extends IntentService {
 		
 	}			
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 }

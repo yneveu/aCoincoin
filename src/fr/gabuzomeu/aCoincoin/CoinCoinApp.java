@@ -206,27 +206,9 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		
 		getBoards();
 		
-		//setMessagesList( getNewMessages());
 		setMessagesList( messagesList);
 		onLaunch = false;
-		
-
-		
-		//Intent svc = new Intent(this, ICoincoinService.class);
-    	//this.startService(svc);
-    	
-		
-      //  setActivityHandler( mHandler ); 
-        //activityContext = this;
-        //setMainActivity( this);
-        Log.i( CoinCoinApp.LOG_TAG, "ON CREATE APPLICATION");
-       // MessageAdapter adapt = new MessageAdapter( this, R.layout.messagerow, app.getMessagesList());
-       // setMessageAdapter( adapt);
-       // setListAdapter( adapt);
-       // lview = getListView();
-        //lview.setFastScrollEnabled( true);
-        setMessagesList( getNewMessages());
-     //   getMessageAdapter().notifyDataSetChanged();
+	   setMessagesList( getNewMessages());
 		   
         
    	Intent svc = new Intent(this, ICoincoinService.class);
@@ -290,8 +272,8 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 						"VALUES ('gabuzomeu', 'http://gabuzomeu.fr/tribune.xml', 'http://gabuzomeu.fr/tribune/post', 'TRUE', '#dbe6e6',0, 'guest', 'vide','gabuzomeu.fr', 'http://gabuzomeu.fr/tribune/', 'utf8', '', 'aCoincoin 0.1' );");
 			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
 						"VALUES ('linuxfr', 'http://linuxfr.org/board/remote.xml', 'http://linuxfr.org/board/', 'TRUE', '#aaffbb',0,'guest', 'vide', 'linuxfr.org', 'http://linuxfr.org/board/', 'utf8', 'section=1', 'aCoincoin 0.1' );");
-			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
-					"VALUES ('euromussels', 'http://euromussels.eu/tribune.xml', 'http://euromussels.eu/tribune/post', 'TRUE', '#84A5FF',0,'guest', 'vide', 'euromussels.eu', 'http://euromussels.eu/', 'utf8', '', 'aCoincoin 0.1' );");
+			//db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
+			//		"VALUES ('euromussels', 'http://euromussels.eu/tribune.xml', 'http://euromussels.eu/tribune/post', 'TRUE', '#84A5FF',0,'guest', 'vide', 'euromussels.eu', 'http://euromussels.eu/', 'utf8', '', 'aCoincoin 0.1' );");
 			getBoards();
 		}
 		
@@ -307,12 +289,6 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		String boardBackendUrl;
 		long boardLastUpdate;
 		String boardColor;
-		//ArrayList<CoinCoinMessage> messagesList = new ArrayList<CoinCoinMessage>();
-
-		//messagesList = new ArrayList<CoinCoinMessage>();
-		
-		Log.i( CoinCoinApp.LOG_TAG, "In getNewMessages");
-
 		
 				
 		try {
@@ -353,8 +329,7 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 						mess.setBoardId( boardId );
 
 						messagesList.add(mess);
-						//Log.i( CoinCoinApp.LOG_TAG, "getNewMessages Message added->  " + mess );
-
+	
 					} while (!cs2.isLast());
 					cs2.close();
 
@@ -375,10 +350,8 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		
 		
 		Collections.sort(messagesList);
-		
-		//if( !onLaunch){
-			Collections.reverse(messagesList);
-		//}
+		Collections.reverse(messagesList);
+	
 		return messagesList;
 	}
 
@@ -396,7 +369,7 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		int nb=0;
 		try {
 			Cursor cs = db.query("messages", new String[] { "id"}, "fk_board_id=?", new String[] {String.valueOf( board.getId()) }, null, null, null,null);
-			Log.i( CoinCoinApp.LOG_TAG, "NB MESSAGES -------> " + cs.getCount());
+//			Log.i( CoinCoinApp.LOG_TAG, "NB MESSAGES -------> " + cs.getCount());
 			nb = cs.getCount();
 		}catch( Exception e){
 			Log.i( CoinCoinApp.LOG_TAG, e.getMessage() );

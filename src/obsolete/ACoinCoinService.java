@@ -1,17 +1,24 @@
-package fr.gabuzomeu.aCoincoin;
+package obsolete;
 
-import java.io.File;
-import java.io.InputStream;
+/**Not used anymore*/
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Timer;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
+import fr.gabuzomeu.aCoincoin.CoinCoinApp;
+import fr.gabuzomeu.aCoincoin.CoinCoinMessage;
+import fr.gabuzomeu.aCoincoin.CoinCoinParser;
+import fr.gabuzomeu.aCoincoin.CoincoinActivity;
+import fr.gabuzomeu.aCoincoin.CoincoinBoard;
+import fr.gabuzomeu.aCoincoin.R;
+import fr.gabuzomeu.aCoincoin.R.drawable;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -20,11 +27,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;

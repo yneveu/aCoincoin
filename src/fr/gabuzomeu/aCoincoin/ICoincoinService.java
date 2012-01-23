@@ -136,6 +136,7 @@ public class ICoincoinService extends IntentService {
 							if( mess.getTime() > maxTime ){
 								ContentValues messageValues= new ContentValues();
 								messageValues.put("fk_board_id",  board.getId());
+								Log.i( "IcoinCoinService", "SEND BOARD ID : " + board.getId() );
 								messageValues.put("time",  mess.getTime());
 								messageValues.put("info",  mess.getInfo());
 								messageValues.put("login",  mess.getLogin());

@@ -154,6 +154,7 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 	public CoincoinBoard getBoardById( int id){
 		
 		for( int i=0; i < boardList.size(); i++){
+			Log.i( "CHERCHEBOARD", "CHERCHE : " + id + " trouve " + ((CoincoinBoard)boardList.get( i)).getId());
 			CoincoinBoard tmpBoard= boardList.get( i);
 			if( tmpBoard.getId() == id)
 				return tmpBoard;

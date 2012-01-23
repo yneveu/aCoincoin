@@ -89,7 +89,7 @@ public class MessageAdapter extends ArrayAdapter<CoinCoinMessage> {
 			public void onClick(View v) {
 				Intent intent = new Intent( context , CoincoinPostActivity.class);
 				intent.putExtra("board", message.getBoardId());
-				Log.i( CoinCoinApp.LOG_TAG, "SEND BOARD ID : " + message.getBoardId()  );
+				Log.i( CoinCoinApp.LOG_TAG, "SEND BOARD ID : " + message.getBoardId() +1 );
 				intent.putExtra("norloge", hour + ":" + minutes +":" + seconds +" ");
 				context.startActivity( intent);
 			}

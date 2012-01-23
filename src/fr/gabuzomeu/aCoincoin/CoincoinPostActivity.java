@@ -98,6 +98,7 @@ public class CoincoinPostActivity extends Activity {
                 if( postBoard != null){
        
                 	postMessage( msg.getText().toString() );
+                	
                 	//CoincoinPalmipede.this.dismiss();
                 }
                 else{

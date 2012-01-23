@@ -26,24 +26,6 @@
         
         
    </PreferenceCategory>
-   <PreferenceCategory android:title="Boards preferences">
-        <PreferenceScreen
-            android:key="detail"
-            android:title="Boards"
-            android:summary="Configured boards list">
-            <CheckBoxPreference
-                android:key="@string/checkbox2"
-                android:title="Another Checkbox"
-                android:summary="On. Off. It really doesn't matter."
-            />
-            <ListPreference
-            	android:key="@string/boardListsPref"
-            	android:title="Boards list"
-            	android:summary="List of boards to setup"
-            	
-            />
-        </PreferenceScreen>
-    </PreferenceCategory>
-  
+   
   
 </PreferenceScreen>

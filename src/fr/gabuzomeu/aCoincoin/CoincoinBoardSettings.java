@@ -116,6 +116,11 @@ CoinCoinApp app;
                         update.remove(key);
                         return this;
                 }
+
+				public void apply() {
+					// TODO Auto-generated method stub
+					
+				}
                 
         }
 

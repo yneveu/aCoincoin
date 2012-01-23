@@ -1,5 +1,7 @@
 package fr.gabuzomeu.aCoincoin;
 
+import android.content.ContentValues;
+
 
 
 
@@ -19,7 +21,7 @@ public class CoincoinBoard {
 	private String postReferer;
 	private String userAgent;
 	private String encoding;
-	private int last_update;
+	private long last_update;
 	private String login;
 	private int lastMessageId;
 	
@@ -112,10 +114,10 @@ public class CoincoinBoard {
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
-	public int getLast_update() {
+	public long getLast_update() {
 		return last_update;
 	}
-	public void setLast_update(int lastUpdate) {
+	public void setLast_update(long lastUpdate) {
 		last_update = lastUpdate;
 	}
 	public void setLogin(String login) {
@@ -138,6 +140,10 @@ public class CoincoinBoard {
 	}
 	public void setLastMessageId(int lastMessageId) {
 		this.lastMessageId = lastMessageId;
+	//	CoinCoinApp app;
+	//	ContentValues content = new ContentValues();
+	//	content.put( "", value)
+	//	app.getDb().update("boards", String.valueOf( lastMessageId), "id=?", String.valueOf( this.getId()));
 	}
 	public int getLastMessageId() {
 		return lastMessageId;

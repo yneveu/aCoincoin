@@ -193,7 +193,7 @@ public class CoincoinPostActivity extends Activity {
 			
 	          HttpPost post = new HttpPost( postBoard.getPostUrl());
 	         
-	          
+	          Log.i( CoinCoinApp.LOG_TAG, "POST-----------> URL ----> " + postBoard.getPostUrl());
 	          
 	          post.addHeader(new BasicHeader("Cookie", postBoard.getCookies() ));
 	          post.addHeader(new BasicHeader("Referer", postBoard.getPostReferer()));
@@ -216,15 +216,20 @@ public class CoincoinPostActivity extends Activity {
 	               List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	                       
 	              
+	               nameValuePairs.add( new BasicNameValuePair("board[message]", message));
 	               nameValuePairs.add( new BasicNameValuePair("message", message));
-	               nameValuePairs.add( new BasicNameValuePair("section", "1"));
+	               //nameValuePairs.add( new BasicNameValuePair("section", "1"));
+	               //nameValuePairs.add( new BasicNameValuePair("board[object_type]", "Free"));
+	               //nameValuePairs.add( new BasicNameValuePair("board[object_id]", ""));
+	               //nameValuePairs.add( new BasicNameValuePair("utf8", "&#x2713;"));
+	               //nameValuePairs.add( new BasicNameValuePair("authenticity_token", "nmO/idoZVv/cWObadFYKzZibwGZw520EfKMqTp0lVP0="));
 	               
-	              /* Iterator<NameValuePair> it = nameValuePairs.iterator();
+	               Iterator<NameValuePair> it = nameValuePairs.iterator();
 	               while( it.hasNext()){
 	            	   NameValuePair pair = it.next();
 	            	   Log.i( CoinCoinApp.LOG_TAG, pair.getName() + " --> " + pair.getValue() ); 
 	               }
-	            	*/   
+	            	   
 	               
 	               //post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	               UrlEncodedFormEntity ent = new UrlEncodedFormEntity(nameValuePairs ,HTTP.UTF_8 );

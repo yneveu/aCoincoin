@@ -11,6 +11,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import fr.gabuzomeu.aCoincoin.CoincoinActivity.ResponseReceiver;
+
 import android.app.Activity;
 import android.app.Application;
 import android.app.Notification;
@@ -18,6 +20,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -46,9 +49,34 @@ public class CoinCoinApp extends Application {
 	ArrayList<CoinCoinMessage> messagesList;
 	MessageAdapter messageAdapter;
 	
+	CoincoinActivity mainActivity;
+	
+	private ResponseReceiver receiver;
+	
+	private boolean onLaunch = true;
+	
+	
+
+	public boolean isOnLaunch() {
+		return onLaunch;
+	}
+
+	public void setOnLaunch(boolean onLaunch) {
+		this.onLaunch = onLaunch;
+	}
+
 	private boolean boardsListUpdated = false;
 		
 	SQLiteDatabase db=null;
+	
+	public CoincoinActivity getMainActivity() {
+		return mainActivity;
+	}
+
+	public void setMainActivity(CoincoinActivity mainActivity) {
+		this.mainActivity = mainActivity;
+	}
+	
 	
 	public SharedPreferences getPrefs() {
 		return prefs;
@@ -65,7 +93,7 @@ public class CoinCoinApp extends Application {
 		+ "post_url TEXT,"
 		+ "enabled BOOLEAN NOT NULL, "
 		+ "background_color TEXT,"  
-		+ "last_update INTEGER, "
+		+ "last_update LONG, "
 		+ "login TEXT,"
 		+ "cookie TEXT,"
 		+ "host TEXT,"
@@ -178,6 +206,38 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		
 		getBoards();
 		
+		//setMessagesList( getNewMessages());
+		setMessagesList( messagesList);
+		onLaunch = false;
+		
+
+		
+		//Intent svc = new Intent(this, ICoincoinService.class);
+    	//this.startService(svc);
+    	
+		
+      //  setActivityHandler( mHandler ); 
+        //activityContext = this;
+        //setMainActivity( this);
+        Log.i( CoinCoinApp.LOG_TAG, "ON CREATE APPLICATION");
+       // MessageAdapter adapt = new MessageAdapter( this, R.layout.messagerow, app.getMessagesList());
+       // setMessageAdapter( adapt);
+       // setListAdapter( adapt);
+       // lview = getListView();
+        //lview.setFastScrollEnabled( true);
+        setMessagesList( getNewMessages());
+     //   getMessageAdapter().notifyDataSetChanged();
+		   
+        
+   	Intent svc = new Intent(this, ICoincoinService.class);
+		svc.addCategory( "onCreate");
+    	this.startService(svc);
+    	
+    	
+		
+    	
+    	
+    	
 	}
 	
 	private void getBoards(){
@@ -202,7 +262,7 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 				board.setId( cs.getInt(0));;
 				board.setName(cs.getString(1));
 				board.setBackend_url( cs.getString(2));
-				board.setLast_update( cs.getInt(3) );
+				board.setLast_update( cs.getLong(3) );
 				board.setPostUrl( cs.getString(4));
 				board.setEnabled( Boolean.parseBoolean( cs.getString( 5)));
 				board.setBackground_color( cs.getString(6));
@@ -214,9 +274,14 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 				board.setUserAgent( cs.getString(12));
 				board.setEncoding( cs.getString(13));
 				
+				Cursor cs2 = db.query( "messages", new String[]{"post_id"},"fk_board_id=?", new String[] { String.valueOf(board.getId()) }  , null, null , "post_id", "1");
+				if( cs2.getCount() > 0){
+						cs2.moveToNext();
+						board.setLastMessageId( cs2.getInt( 0));
+					}
+				else board.setLastMessageId( 0);
 				
-				
-				Log.i( CoinCoinApp.LOG_TAG, "Board found -------> " + board  );
+				Log.i( CoinCoinApp.LOG_TAG, "Board found -------> " + board + " LAST ID: " + board.getLastMessageId() );
 				boardList.add( board);
 			}while( !cs.isLast() );
 		}else{
@@ -224,7 +289,9 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
 						"VALUES ('gabuzomeu', 'http://gabuzomeu.fr/tribune.xml', 'http://gabuzomeu.fr/tribune/post', 'TRUE', '#dbe6e6',0, 'guest', 'vide','gabuzomeu.fr', 'http://gabuzomeu.fr/tribune/', 'utf8', '', 'aCoincoin 0.1' );");
 			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
-						"VALUES ('linuxfr', 'http://linuxfr.org/board/remote.xml', 'http://linuxfr.org/board/add.html', 'TRUE', '#aaffbb',0,'guest', 'vide', 'linuxfr.org', 'http://linuxfr.org/board/', 'utf8', 'section=1', 'aCoincoin 0.1' );");
+						"VALUES ('linuxfr', 'http://linuxfr.org/board/remote.xml', 'http://linuxfr.org/board/', 'TRUE', '#aaffbb',0,'guest', 'vide', 'linuxfr.org', 'http://linuxfr.org/board/', 'utf8', 'section=1', 'aCoincoin 0.1' );");
+			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
+					"VALUES ('euromussels', 'http://euromussels.eu/tribune.xml', 'http://euromussels.eu/tribune/post', 'TRUE', '#84A5FF',0,'guest', 'vide', 'euromussels.eu', 'http://euromussels.eu/', 'utf8', '', 'aCoincoin 0.1' );");
 			getBoards();
 		}
 		
@@ -238,11 +305,11 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		int boardId;
 		String boardName;
 		String boardBackendUrl;
-		int boardLastUpdate;
+		long boardLastUpdate;
 		String boardColor;
-		ArrayList<CoinCoinMessage> messagesList = new ArrayList<CoinCoinMessage>();
+		//ArrayList<CoinCoinMessage> messagesList = new ArrayList<CoinCoinMessage>();
 
-		
+		//messagesList = new ArrayList<CoinCoinMessage>();
 		
 		Log.i( CoinCoinApp.LOG_TAG, "In getNewMessages");
 
@@ -251,20 +318,23 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		try {
 			Cursor cs = db.query("boards", new String[] { "id", "name",	"backend_url", "last_update", "background_color" }, null,null, null, null, null);
 			do {
+				
 				cs.moveToNext();
 				boardId = cs.getInt(0);
 				boardName = cs.getString(1);
 				boardBackendUrl = cs.getString(2);
-				boardLastUpdate = cs.getInt(3);
+				boardLastUpdate = cs.getLong(3);
 				boardColor = cs.getString(4);
 
+				
 				try {
-					Cursor cs2 = db.query("messages", new String[] { "id",
+					Cursor cs2 = db.query(true, "messages", new String[] { "id",
 							"time", "info", "message", "login", "post_id" },
 							"fk_board_id=?", new String[] { String
 									.valueOf(boardId) }, null, null, "time DESC",
+							
 							"30");
-
+					
 					Log.i( CoinCoinApp.LOG_TAG, "NB MESSAGES -------> "
 							+ cs2.getCount() + " where fk_board_id=" + boardId
 							+ " ***** ");
@@ -283,8 +353,7 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 						mess.setBoardId( boardId );
 
 						messagesList.add(mess);
-						// Log.i( CoinCoinApp.LOG_TAG, "Message added->  "
-						// + mess );
+						//Log.i( CoinCoinApp.LOG_TAG, "getNewMessages Message added->  " + mess );
 
 					} while (!cs2.isLast());
 					cs2.close();
@@ -304,99 +373,15 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 					+ e.getMessage());
 		}
 		
+		
 		Collections.sort(messagesList);
+		
+		//if( !onLaunch){
+			Collections.reverse(messagesList);
+		//}
 		return messagesList;
 	}
 
-
-
-	/*public int fetchNewPosts(){
-	
-		Cursor cs = null;
-		Cursor cs_mess=null;
-		
-		int newmessCounter=0;
-		
-		
-		for( int i=0; i < boardList.size(); i++){
-			CoincoinBoard board = boardList.get( i);
-			Log.i( CoinCoinApp.LOG_TAG, "IN APP BOARD -------> " + board.getName());
-
-			try{
-				URL url = new URL( board.getBackend_url() );
-				
-				SAXParserFactory spf = SAXParserFactory.newInstance(); 
-				SAXParser sp = spf.newSAXParser(); 
-				XMLReader xr = sp.getXMLReader(); 
-
-				CoinCoinParser cParser = new CoinCoinParser(); 
-				xr.setContentHandler( cParser); 
-				xr.parse(new InputSource(url.openStream()));
-				
-				ArrayList<CoinCoinMessage> messageList = cParser.getMessages();
-				Iterator<CoinCoinMessage> it = messageList.iterator();
-
-				
-				
-				while( it.hasNext()){
-					
-					CoinCoinMessage mess = it.next();
-					cs_mess = db.query( "messages", new String[]{"post_id"}, "post_id=? AND fk_board_id=?", new String[]{ String.valueOf(mess.getId()), String.valueOf( board.getId()) }, null, null, "time DESC");
-					try{
-						if( cs_mess.getCount() <= 0){
-							ContentValues messageValues= new ContentValues();
-							messageValues.put("fk_board_id",  board.getId());
-							messageValues.put("time",  mess.getTime());
-							messageValues.put("info",  mess.getInfo());
-							messageValues.put("login",  mess.getLogin());
-							messageValues.put("message",  mess.getMessage());
-							messageValues.put("post_id",  mess.getId());
-							db.insert( "messages", "id", messageValues);
-							newmessCounter++;
-							int cpt = board.getNewMessages();
-							cpt++;
-							board.setNewMessages( cpt);
-						}else{
-							//Log.i( CoinCoinApp.LOG_TAG, "Message already here"  );
-						}
-						if( cs_mess != null){
-							//Log.i( CoinCoinApp.LOG_TAG, "CLOSE CURSOR CS_MESS!!!!!!!!!!!!!!!!!!!!!!!!!!"  );
-							cs_mess.close();
-						}
-					}catch(SQLException e){
-						Log.i( CoinCoinApp.LOG_TAG, e.getMessage()  );
-					}
-				
-
-				}
-				
-				if( newmessCounter > 0 ){  
-					setUpdated( true);
-				}
-		
-			}catch( Exception e){
-				Log.i( CoinCoinApp.LOG_TAG, "APP !!!!!!!!!!!!!!!!!!!!!!!!!!" + e.toString()  );
-				e.printStackTrace();
-			}
-
-
-		}
-		
-
-	
-		
-
-		if( cs != null){
-			Log.i( CoinCoinApp.LOG_TAG, "CLOSE CURSOR CS!!!!!!!!!!!!!!!!!!!!!!!!!!"  );
-			cs.close();
-		}
-		
-		
-		return newmessCounter;
-		
-	}
-
-*/
 
 
 	public void resetNewMessages(){
@@ -445,5 +430,9 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 	}
 	
 
+	
+	
+	
+	
 
 }

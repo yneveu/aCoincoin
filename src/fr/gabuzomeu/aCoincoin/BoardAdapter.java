@@ -83,11 +83,13 @@ public class BoardAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) { 
         CoincoinBoard board = boardsList.get(position);
-        Log.i( CoinCoinApp.LOG_TAG, "AJOUT ELEMENT VIEW: " + board);
+        Log.i( CoinCoinApp.LOG_TAG, "AJOUT ELEMENT VIEW BOARDADAPTER: " + board);
         
         BoardAdapterView aView = new BoardAdapterView(  this.context, board );
         rGroup.addView( aView );
         return rGroup;
     }
+
+	
 
 }

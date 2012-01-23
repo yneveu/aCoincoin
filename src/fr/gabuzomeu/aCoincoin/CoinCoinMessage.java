@@ -65,9 +65,11 @@ public class CoinCoinMessage implements Comparable {
 	
 	@Override
 	public String toString() {
-		return "CoinCoinMessage [\nboard=" + board + "\nboardId=" + boardId
+		/*return "CoinCoinMessage [\nboard=" + board + "\nboardId=" + boardId
 				+ "\nid=" + id + "\ninfo=" + info + "\nlogin=" + login
-				+ "\nmessage=" + message + "\ntime=" + time + "]";
+			+ "\nmessage=" + message + "\ntime=" + time + "]";*/
+		//return "CoinCoinMessage [board=" + board + "boardId=" + boardId + " id=" + id + " info=" + info + " login=" + login + " message=" + message + " time=" + time + "]";
+		return "CoinCoinMessage [ boardId=" + boardId + " id=" + id + " time=" + time + " message= " + message + "]";
 	}
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;

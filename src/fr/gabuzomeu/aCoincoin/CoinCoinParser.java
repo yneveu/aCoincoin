@@ -119,7 +119,7 @@ public class CoinCoinParser extends DefaultHandler {
     @Override 
    public void characters(char ch[], int start, int length) { 
     	String cdata = new String(ch, start, length);
-        cdata = cdata.trim();
+       // cdata = cdata.trim();
     	  
     	if( this.in_time){
     		message.setTime( Integer.parseInt( cdata ));
@@ -132,8 +132,10 @@ public class CoinCoinParser extends DefaultHandler {
     		message.setInfo( cdata );
     		this.in_info=false;
     	}else if( this.in_message ){
-    		if( message.getMessage() != null )
+    		if( message.getMessage() != null ){
     			message.setMessage( message.getMessage() + cdata );
+    			//Log.i( CoinCoinApp.LOG_TAG, "*** MESSAGE XML-------------->: " + cdata);
+    		}
     		else 
     			message.setMessage( cdata);
     		//this.in_message=false;

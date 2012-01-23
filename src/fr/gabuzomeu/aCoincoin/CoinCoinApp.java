@@ -269,9 +269,9 @@ private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS 
 		}else{
 			Log.i( CoinCoinApp.LOG_TAG, "NO BOARD, CREATING SOME..."  );
 			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
-						"VALUES ('gabuzomeu', 'http://gabuzomeu.fr/tribune.xml', 'http://gabuzomeu.fr/tribune/post', 'TRUE', '#dbe6e6',0, 'guest', 'vide','gabuzomeu.fr', 'http://gabuzomeu.fr/tribune/', 'utf8', '', 'aCoincoin 0.1' );");
+						"VALUES ('gabuzomeu', 'http://gabuzomeu.fr/tribune.xml', 'http://gabuzomeu.fr/tribune/post', 'TRUE', '#dbe6e6',0, 'guest', 'vide','gabuzomeu.fr', 'http://gabuzomeu.fr/tribune/', 'utf8', 'board[message]', 'aCoincoin 0.1' );");
 			db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
-						"VALUES ('linuxfr', 'http://linuxfr.org/board/remote.xml', 'http://linuxfr.org/board/', 'TRUE', '#aaffbb',0,'guest', 'vide', 'linuxfr.org', 'http://linuxfr.org/board/', 'utf8', 'section=1', 'aCoincoin 0.1' );");
+						"VALUES ('linuxfr', 'http://linuxfr.org/board/remote.xml', 'http://linuxfr.org/board/', 'TRUE', '#aaffbb',0,'guest', 'vide', 'linuxfr.org', 'http://linuxfr.org/board/', 'utf8', 'board[message]', 'aCoincoin 0.1' );");
 			//db.execSQL("insert into boards (name, backend_url, post_url, enabled, background_color, last_update, login, cookie, host, post_referer, encoding, extra_post_params, user_agent ) " +
 			//		"VALUES ('euromussels', 'http://euromussels.eu/tribune.xml', 'http://euromussels.eu/tribune/post', 'TRUE', '#84A5FF',0,'guest', 'vide', 'euromussels.eu', 'http://euromussels.eu/', 'utf8', '', 'aCoincoin 0.1' );");
 			getBoards();

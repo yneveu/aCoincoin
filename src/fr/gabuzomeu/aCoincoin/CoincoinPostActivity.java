@@ -216,8 +216,8 @@ public class CoincoinPostActivity extends Activity {
 	               List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	                       
 	              
-	               nameValuePairs.add( new BasicNameValuePair("board[message]", message));
-	               nameValuePairs.add( new BasicNameValuePair("message", message));
+	               nameValuePairs.add( new BasicNameValuePair( postBoard.getExtraPostParams(), message));
+	               nameValuePairs.add( new BasicNameValuePair( "message", message));
 	               //nameValuePairs.add( new BasicNameValuePair("section", "1"));
 	               //nameValuePairs.add( new BasicNameValuePair("board[object_type]", "Free"));
 	               //nameValuePairs.add( new BasicNameValuePair("board[object_id]", ""));

@@ -37,7 +37,7 @@ import android.util.Log;
 
 
 
-public class ACoinCoinService extends Service {
+public class ObsoleteACoinCoinService extends Service {
 
 	
 	private Handler mHandler = new Handler();
@@ -263,11 +263,11 @@ public class ACoinCoinService extends Service {
 				
 				
 				
-				Intent notificationIntent = new Intent( ACoinCoinService.this, CoincoinActivity.class);
+				Intent notificationIntent = new Intent( ObsoleteACoinCoinService.this, CoincoinActivity.class);
 
-				PendingIntent contentIntent = PendingIntent.getActivity( ACoinCoinService.this , 0, notificationIntent, 0);
+				PendingIntent contentIntent = PendingIntent.getActivity( ObsoleteACoinCoinService.this , 0, notificationIntent, 0);
 				
-				notification.setLatestEventInfo( ACoinCoinService.this, contentTitle, notifMess, contentIntent);
+				notification.setLatestEventInfo( ObsoleteACoinCoinService.this, contentTitle, notifMess, contentIntent);
 				
 				boolean sound = app.getPrefs().getBoolean( "Sounds" ,false);
 				//boolean sound = Boolean.getBoolean( sSound);
@@ -279,10 +279,7 @@ public class ACoinCoinService extends Service {
 				
 				mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 				mNotificationManager.notify(1,notification);
-				
-				
-				
-				
+
 				
 			}
 	

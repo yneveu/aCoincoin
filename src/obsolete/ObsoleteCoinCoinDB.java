@@ -1,4 +1,4 @@
-package fr.gabuzomeu.aCoincoin;
+package obsolete;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class CoinCoinDB extends SQLiteOpenHelper{
+public class ObsoleteCoinCoinDB extends SQLiteOpenHelper{
 
 	private static String DB_PATH = "/data/data/fr.gabuzomeu.acoincoin/databases/";
 	 
@@ -37,7 +37,7 @@ public class CoinCoinDB extends SQLiteOpenHelper{
 			"FOREIGN KEY (fk_board_id) REFERENCES boards(id) ;)";
 	
 	
-	public CoinCoinDB( Context context) {
+	public ObsoleteCoinCoinDB( Context context) {
 		super(context, DB_NAME, null, 1);
         this.myContext = context;
 	}
@@ -50,21 +50,14 @@ public class CoinCoinDB extends SQLiteOpenHelper{
     	boolean dbExist = checkDataBase();
  
     	if(dbExist){
-    		//do nothing - database already exist
+
     	}else{
  
-    		//By calling this method and empty database will be created into the default system path
-               //of your application so we are gonna be able to overwrite that database with our database.
         	this.getReadableDatabase();
- 
         	try {
- 
     			copyDataBase();
- 
     		} catch (IOException e) {
- 
         		throw new Error("Error copying database");
- 
         	}
     	}
  
@@ -81,8 +74,6 @@ public class CoinCoinDB extends SQLiteOpenHelper{
  
     	}catch(SQLiteException e){
  
-    		//database does't exist yet.
- 
     	}
  
     	if(checkDB != null){
@@ -96,23 +87,18 @@ public class CoinCoinDB extends SQLiteOpenHelper{
 	
 	private void copyDataBase() throws IOException{
 		 
-    	//Open your local db as the input stream
+
     	InputStream myInput = myContext.getAssets().open(DB_NAME);
- 
-    	// Path to the just created empty db
     	String outFileName = DB_PATH + DB_NAME;
- 
-    	//Open the empty db as the output stream
     	OutputStream myOutput = new FileOutputStream(outFileName);
- 
-    	//transfer bytes from the inputfile to the outputfile
+
     	byte[] buffer = new byte[1024];
     	int length;
     	while ((length = myInput.read(buffer))>0){
     		myOutput.write(buffer, 0, length);
     	}
  
-    	//Close the streams
+
     	myOutput.flush();
     	myOutput.close();
     	myInput.close();

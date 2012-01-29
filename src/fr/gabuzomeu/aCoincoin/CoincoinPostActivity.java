@@ -2,13 +2,9 @@ package fr.gabuzomeu.aCoincoin;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.http.Header;
-import org.apache.http.HttpConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -20,22 +16,21 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import android.R.anim;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import 	android.widget.TableLayout;
+import android.widget.Toast;
 
 public class CoincoinPostActivity extends Activity {
 
@@ -46,7 +41,6 @@ public class CoincoinPostActivity extends Activity {
 	
 	String message;
 	CoinCoinApp app;
-	
 	CoincoinBoard postBoard;
 	
 	Context acontext;
@@ -66,8 +60,10 @@ public class CoincoinPostActivity extends Activity {
 
 		setContentView(R.layout.palmipede);
 		boardsList = (RadioGroup)findViewById( R.id.RadioGroup01);
-		msg = (TextView)findViewById( R.id.EditText01);
+		
 		postButton = ( Button)findViewById( R.id.Button01);
+		msg = (TextView)findViewById( R.id.EditText01);
+		
 		
 		Bundle extras = getIntent().getExtras();
 		
@@ -89,6 +85,36 @@ public class CoincoinPostActivity extends Activity {
 		}
 		
 		
+		/*Catch enter key to post*/
+		msg.setOnKeyListener(new OnKeyListener(){
+		    public boolean onKey(View v, int keyCode, KeyEvent event)
+		    {
+		        if (event.getAction() == KeyEvent.ACTION_DOWN)
+		        {
+		            switch (keyCode)
+		            {
+		                case KeyEvent.KEYCODE_DPAD_CENTER:
+		                case KeyEvent.KEYCODE_ENTER:
+		                	if( postBoard != null){
+		                    	postMessage( msg.getText().toString() );
+		                    	Intent svc = new Intent( acontext, ICoincoinService.class);
+		                    	app.startService(svc);
+		                    	finish();
+		                    }
+		                    return true;
+		                default:
+		                    break;
+		            }
+		        }
+		        return false;
+		    }
+
+			
+		});
+
+		
+		
+		
 		
 		
 		postButton.setOnClickListener(new View.OnClickListener() {
@@ -96,20 +122,14 @@ public class CoincoinPostActivity extends Activity {
                 message = new String( msg.getText().toString() );
                 
                 if( postBoard != null){
-       
                 	postMessage( msg.getText().toString() );
-                	
-                	//CoincoinPalmipede.this.dismiss();
+                	Intent svc = new Intent( acontext, ICoincoinService.class);
+                	app.startService(svc);
+                	finish();
                 }
                 else{
-                	/*Toast toast = new Toast( acontext);
-                	//toast.setView( CoincoinActivity.this);
-                	CharSequence text = "Please select a board!";
-                	toast.makeText( acontext ,text, Toast.LENGTH_SHORT);
-                	AlertDialog dialog = dialog.
-                	
-                	dialog.
-                	toast.show();*/
+    	        	Toast toast = Toast.makeText( acontext , "Please choose a board...", Toast.LENGTH_SHORT);
+                	toast.show();
                 }
                 
             }
@@ -180,88 +200,50 @@ public class CoincoinPostActivity extends Activity {
 			String utf8Message;
 			 try {
 				utf8Message = new String( message.getBytes( "UTF-8") );
-				//utf8Message = new String( message.getBytes( "ISO8859-1") );
 			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
 				utf8Message = message;
 				Log.i( CoinCoinApp.LOG_TAG, "!!!!!!!!!!!!!!!!!!!!!!!Content encoding: " + e1.getMessage());
-				
 			}
-			 
-	          
+		      
 			message=utf8Message;
-			 
 			
-	          HttpPost post = new HttpPost( postBoard.getPostUrl());
+	        HttpPost post = new HttpPost( postBoard.getPostUrl());
 	         
-	          Log.i( CoinCoinApp.LOG_TAG, "POST-----------> URL ----> " + postBoard.getPostUrl());
-	          
-	          post.addHeader(new BasicHeader("Cookie", postBoard.getCookies() ));
-	          post.addHeader(new BasicHeader("Referer", postBoard.getPostReferer()));
-	          post.addHeader(new BasicHeader("Host", postBoard.getHost()));
-	
-	          post.addHeader(new BasicHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
-	          post.addHeader(new BasicHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3"));
-	          post.addHeader(new BasicHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7"));
-	          post.addHeader(new BasicHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"));
-	          post.setHeader("User-Agent", postBoard.getUserAgent() );
-	          
-	          
-	          
-	          
-	          HttpClient hClient = new DefaultHttpClient(); 
-	         
-	          Log.i( CoinCoinApp.LOG_TAG, "Default Charset" + Charset.defaultCharset().displayName());
-	         
-	          try {
+            post.addHeader(new BasicHeader("Cookie", postBoard.getCookies() ));
+	        post.addHeader(new BasicHeader("Referer", postBoard.getPostReferer()));
+	        post.addHeader(new BasicHeader("Host", postBoard.getHost()));
+	        post.addHeader(new BasicHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
+	        post.addHeader(new BasicHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3"));
+	        post.addHeader(new BasicHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7"));
+	        post.addHeader(new BasicHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"));
+	        
+	        if( postBoard.getUserAgent() .compareTo("_default_") == 0 )
+	        	post.setHeader("User-Agent", "ACoincoin " + CoinCoinApp.getVERSION() );
+	        else
+	        	post.setHeader("User-Agent", postBoard.getUserAgent() );
+  
+	        HttpClient hClient = new DefaultHttpClient(); 
+	              	         
+	        try {
 	               List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	                       
 	              
 	               nameValuePairs.add( new BasicNameValuePair( postBoard.getExtraPostParams(), message));
 	               nameValuePairs.add( new BasicNameValuePair( "message", message));
-	               //nameValuePairs.add( new BasicNameValuePair("section", "1"));
-	               //nameValuePairs.add( new BasicNameValuePair("board[object_type]", "Free"));
-	               //nameValuePairs.add( new BasicNameValuePair("board[object_id]", ""));
-	               //nameValuePairs.add( new BasicNameValuePair("utf8", "&#x2713;"));
-	               //nameValuePairs.add( new BasicNameValuePair("authenticity_token", "nmO/idoZVv/cWObadFYKzZibwGZw520EfKMqTp0lVP0="));
-	               
-	               Iterator<NameValuePair> it = nameValuePairs.iterator();
-	               while( it.hasNext()){
-	            	   NameValuePair pair = it.next();
-	            	   Log.i( CoinCoinApp.LOG_TAG, pair.getName() + " --> " + pair.getValue() ); 
-	               }
-	            	   
-	               
-	               //post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	      	      
 	               UrlEncodedFormEntity ent = new UrlEncodedFormEntity(nameValuePairs ,HTTP.UTF_8 );
 	               post.setEntity( ent);
-	              
-	              
-	               
-	               Header[] headers = post.getAllHeaders();
-	               
-	               for( int i=0; i< headers.length; i++){
-	            	   Log.i( CoinCoinApp.LOG_TAG, "POST-----------> " + ((Header)headers[i]).getName() + "=" + ((Header)headers[i]).getValue());
-					
-				}
-	          
-	               
-	              
 	               
 	               HttpResponse response;
 	               response=hClient.execute( post);
 	               Log.i( CoinCoinApp.LOG_TAG, "RESPONSE-----------> " + response.getStatusLine());
 	               Log.i( CoinCoinApp.LOG_TAG, "RESPONSE-----------> " + response.getStatusLine().getReasonPhrase());
-	     
-	               
 	               
 	               return true;
 	          } catch (ClientProtocolException e) {
-	               // TODO Auto-generated catch block
 	               e.printStackTrace();
 	               return false;
 	          } catch (IOException e) {
-	               // TODO Auto-generated catch block
 	               e.printStackTrace();
 	               return false;
 	          } 
@@ -269,6 +251,9 @@ public class CoincoinPostActivity extends Activity {
 	          
 	          
 		}
+		
+		
+
 		
 	
 

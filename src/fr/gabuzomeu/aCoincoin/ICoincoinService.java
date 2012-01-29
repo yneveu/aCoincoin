@@ -24,6 +24,7 @@ import android.database.SQLException;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 import fr.gabuzomeu.aCoincoin.CoincoinActivity.ResponseReceiver;
 
 
@@ -64,6 +65,7 @@ public class ICoincoinService extends IntentService {
 		Message msg = serviceHandler.obtainMessage();
 		msg.obj = intent;
         
+	
 		serviceHandler.sendMessage(msg);
 		//mHandler.postDelayed( fetchTask, 10000);
 		
@@ -89,6 +91,8 @@ public class ICoincoinService extends IntentService {
 			
 			
 			int newmessCounter=0;
+			
+
 			
 			for( int i=0; i < app.getBoardList().size(); i++){
 				CoincoinBoard board = app.getBoardList().get( i);
@@ -136,7 +140,7 @@ public class ICoincoinService extends IntentService {
 							if( mess.getTime() > maxTime ){
 								ContentValues messageValues= new ContentValues();
 								messageValues.put("fk_board_id",  board.getId());
-								Log.i( "IcoinCoinService", "SEND BOARD ID : " + board.getId() );
+								//Log.i( "IcoinCoinService", "SEND BOARD ID : " + board.getId() );
 								messageValues.put("time",  mess.getTime());
 								messageValues.put("info",  mess.getInfo());
 								messageValues.put("login",  mess.getLogin());
@@ -178,6 +182,7 @@ public class ICoincoinService extends IntentService {
 							Intent broadcastIntent = new Intent();
 							broadcastIntent.setAction( ResponseReceiver.ACTION_RESP);
 							broadcastIntent.addCategory( Intent.CATEGORY_DEFAULT);
+							broadcastIntent.putExtra( "new_messages", "Update finished: " +  board.getName() + " --> " + newmessCounter +" new messages!");
 							sendBroadcast(broadcastIntent);
 						}
 							
@@ -190,7 +195,14 @@ public class ICoincoinService extends IntentService {
 				}
 
 			}
-		
+			if( newmessCounter == 0){
+				/*Send intent to activity for refresh*/
+				Intent broadcastIntent = new Intent();
+				broadcastIntent.setAction( ResponseReceiver.ACTION_RESP);
+				broadcastIntent.addCategory( Intent.CATEGORY_DEFAULT);
+				broadcastIntent.putExtra( "new_messages", "No new messages...");
+			}
+			
 			return newmessCounter;
 			
 		}

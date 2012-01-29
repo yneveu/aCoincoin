@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,8 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CoincoinActivity extends ListActivity {
 
@@ -35,6 +39,7 @@ public class CoincoinActivity extends ListActivity {
 	MenuItem mItemPreferences;
 	MenuItem mItemAbout;
 	MenuItem mItemBoards;
+	MenuItem mItemDlfp;
 	
 	SQLiteDatabase db = null;
 	private ResponseReceiver receiver;
@@ -79,12 +84,19 @@ public class CoincoinActivity extends ListActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         /*To catch intents from ICoincoinService*/
         IntentFilter filter = new IntentFilter(ResponseReceiver.ACTION_RESP);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         receiver = new ResponseReceiver();
-        
+
+      /*  Window window = getWindow();
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        window.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar );
+        TextView tv = (TextView) findViewById( R.id.list_title);
+        tv.setText("Updating...");
+        */        
   		/*Called on application start only*/
         if( onLaunch){
         	onLaunch = false;
@@ -97,6 +109,7 @@ public class CoincoinActivity extends ListActivity {
             app.setMessageAdapter( adapt);
             setListAdapter( adapt);
             lview = getListView();
+            lview.setCacheColorHint( Color.WHITE);
             lview.setFastScrollEnabled( true);
             app.getMessageAdapter().notifyDataSetChanged();
         	
@@ -165,8 +178,13 @@ public class CoincoinActivity extends ListActivity {
 	     mItemPost = menu.add("Post");
 	     mItemPost.setIcon(android.R.drawable.ic_menu_edit);
 	     
+	     mItemDlfp = menu.add("Login DLFP");
+	     mItemDlfp.setIcon(android.R.drawable.ic_menu_preferences);
+	     
 	     mItemRefresh = menu.add("Refresh");
 	     mItemRefresh.setIcon(android.R.drawable.ic_menu_rotate);
+	     
+	     
      
 /*	     mItemPreferences = menu.add("Preferences");
 	     mItemPreferences.setIcon( android.R.drawable.ic_menu_preferences);
@@ -191,7 +209,9 @@ public class CoincoinActivity extends ListActivity {
 	    	 
 	    	 if( item ==  this.mItemRefresh ){
 					Intent svc = new Intent(this, ICoincoinService.class);
-			    	this.startService(svc);
+			    	Toast toast = Toast.makeText( app.getBaseContext() , "Start updating...", Toast.LENGTH_SHORT);
+			    	toast.show();
+					this.startService(svc);
 				 
 				 Log.i( CoinCoinApp.LOG_TAG, "MENU_REFRESH:" + MENU_REFRESH + " sent: " + item.getItemId()  );
 	    	 }
@@ -204,9 +224,14 @@ public class CoincoinActivity extends ListActivity {
 				 mContext.startActivity( intent);
 
 	    	 }
-	    	 if( item == this.mItemPreferences){
+	    	 /*if( item == this.mItemPreferences){
 	    		 Log.i( CoinCoinApp.LOG_TAG, "Go to preferences...");
 	    		 startActivity(new Intent(this, CoincoinPrefsActivity.class));
+	    	 }*/
+	    	 
+	    	 if( item == this.mItemDlfp){
+	    		 Log.i( CoinCoinApp.LOG_TAG, "Go to preferences...");
+	    		 startActivity(new Intent( mContext, DlfpAuthenticationActivity.class));
 	    	 }
 	    	 
 	    	 if( item == this.mItemBoards){
@@ -234,6 +259,8 @@ public class CoincoinActivity extends ListActivity {
 		    public void onReceive(Context context, Intent intent) {
 			   Log.i( CoinCoinApp.LOG_TAG, "CoincoinActivity - Intent received - Refresh boards");
 			   app.getMessageAdapter().notifyDataSetChanged();
+			   Toast toast = Toast.makeText( app.getBaseContext() , intent.getStringExtra( "new_messages") , Toast.LENGTH_SHORT);
+	           toast.show();
 		    }
 		}
 	

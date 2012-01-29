@@ -20,32 +20,39 @@ public final class R {
         public static final int underline=0x7f020006;
     }
     public static final class id {
-        public static final int Button01=0x7f070012;
-        public static final int EditText01=0x7f070011;
-        public static final int ImageButtonBold=0x7f07000d;
-        public static final int ImageButtonItalic=0x7f07000e;
-        public static final int ImageButtonStroke=0x7f07000f;
-        public static final int ImageButtonUnderlined=0x7f070010;
+        public static final int Button01=0x7f070014;
+        public static final int EditText01=0x7f070015;
+        public static final int ImageButtonBold=0x7f070010;
+        public static final int ImageButtonItalic=0x7f070011;
+        public static final int ImageButtonStroke=0x7f070012;
+        public static final int ImageButtonUnderlined=0x7f070013;
         public static final int LinearLayout01=0x7f070000;
-        public static final int ListView01=0x7f07000b;
-        public static final int RadioGroup01=0x7f07000c;
-        public static final int TableLayout01=0x7f07000a;
+        public static final int RadioGroup01=0x7f07000f;
+        public static final int TableLayout01=0x7f07000e;
         public static final int TextViewAbout=0x7f070001;
-        public static final int boardsSpinner=0x7f070003;
-        public static final int infos=0x7f070005;
-        public static final int login=0x7f070007;
-        public static final int message=0x7f070008;
-        public static final int norloge=0x7f070006;
-        public static final int post=0x7f070009;
-        public static final int textView1=0x7f070002;
-        public static final int userText=0x7f070004;
+        public static final int boardsSpinner=0x7f070007;
+        public static final int button1=0x7f070006;
+        public static final int editText1=0x7f070003;
+        public static final int editText2=0x7f070005;
+        public static final int infos=0x7f070009;
+        public static final int list_title=0x7f070016;
+        public static final int login=0x7f07000b;
+        public static final int message=0x7f07000c;
+        public static final int norloge=0x7f07000a;
+        public static final int post=0x7f07000d;
+        public static final int textView1=0x7f070004;
+        public static final int textView2=0x7f070002;
+        public static final int title_progress_bar=0x7f070017;
+        public static final int userText=0x7f070008;
     }
     public static final class layout {
         public static final int about=0x7f030000;
-        public static final int board_wizard=0x7f030001;
-        public static final int main2=0x7f030002;
-        public static final int messagerow=0x7f030003;
-        public static final int palmipede=0x7f030004;
+        public static final int board_pref=0x7f030001;
+        public static final int board_wizard=0x7f030002;
+        public static final int main2=0x7f030003;
+        public static final int messagerow=0x7f030004;
+        public static final int palmipede=0x7f030005;
+        public static final int title_bar=0x7f030006;
     }
     public static final class raw {
         public static final int coin=0x7f050000;

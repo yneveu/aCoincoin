@@ -3,11 +3,58 @@
 <TableLayout android:id="@+id/TableLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-<ListView android:id="@+id/ListView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:choiceMode="singleChoice"></ListView><RadioGroup android:id="@+id/RadioGroup01" android:layout_width="wrap_content" android:layout_height="wrap_content"></RadioGroup><LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonBold"></ImageButton><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonItalic"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonStroke"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageButtonUnderlined"></ImageButton>
-</LinearLayout><EditText android:id="@+id/EditText01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coin Coin!" android:minLines="5" android:selectAllOnFocus="true"></EditText>
-<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Post"></Button>
+<!--<ListView android:id="@+id/ListView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:choiceMode="singleChoice"></ListView>-->
 
+<RadioGroup android:id="@+id/RadioGroup01" android:layout_width="wrap_content" android:layout_height="wrap_content"></RadioGroup>
+
+<LinearLayout
+    android:id="@+id/LinearLayout01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <ImageButton
+        android:id="@+id/ImageButtonBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/ImageButtonItalic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/ImageButtonStroke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/ImageButtonUnderlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ImageButton>
+
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:layout_weight="0.34"
+        android:text="Post" />
+</LinearLayout>
+
+<EditText
+    android:id="@+id/EditText01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:inputType="textMultiLine" android:maxLines="5" android:minLines="5">
+
+    <requestFocus />
+
+    <requestFocus />
+
+</EditText>
 
 </TableLayout>

@@ -130,10 +130,16 @@ public class MessageAdapter extends ArrayAdapter<CoinCoinMessage> {
 		if( message.getBackgroundColor() != null)
 			color = Color.parseColor( message.getBackgroundColor());
 		
+		
+		
 		LinearLayout postLayout =  (LinearLayout)v.findViewById( R.id.infos);
-		postLayout.setBackgroundColor( color);
+		postLayout.setBackgroundColor( color );
+		
 		LinearLayout messageLayout =  (LinearLayout)v.findViewById( R.id.message);
 		messageLayout.setBackgroundColor( color);
+		
+		
+		
 		
 		login.setBackgroundColor( color);
 		post.setBackgroundColor( color);
